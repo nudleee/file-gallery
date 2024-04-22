@@ -20,7 +20,6 @@ const HomePage = () => {
   const [showCreate, setShowCreate] = useState(false);
 
   const getFiles = async () => {
-    console.log('fetch');
     await server.getFiles().then((response) => {
       setFiles(response || []);
     });
@@ -50,7 +49,6 @@ const HomePage = () => {
     formData.append('file', values.file as Blob);
     formData.append('name', values.name);
     const response = await server.uploadFile(values.name, values.file);
-    console.log(response);
     if (response) {
       handleClose();
       getFiles();
