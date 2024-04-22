@@ -32,8 +32,8 @@ jobs:
 
       - name: Env
         run: |
-          echo "${{ secrets.REACT_APP_BACKEND_URL }}"
-          echo "${{ vars.REACT_APP_BACKEND_URL }}"
+          echo "${{ env.REACT_APP_BACKEND_URL }}"
+          echo "${{ env.REACT_APP_BACKEND_URL }}"
 
       - name: npm install, build
         run: |
