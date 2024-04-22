@@ -18,7 +18,6 @@ const HomePage = () => {
   const [files, setFiles] = useState<BlobFile[]>([]);
   const [selectedFile, setSelectedFile] = useState<BlobFile | undefined>();
   const [showCreate, setShowCreate] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
 
   const getFiles = async () => {
     console.log('fetch');
@@ -85,6 +84,7 @@ const HomePage = () => {
             }}
             key={file.name}
             src={file.url}
+            alt={file.name}
           ></img>
         ))}
       </div>

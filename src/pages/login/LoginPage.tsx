@@ -1,6 +1,4 @@
-import { Formik } from 'formik';
-import React from 'react';
-import { Button, Form, Modal, Nav } from 'react-bootstrap';
+import { Modal, Nav } from 'react-bootstrap';
 import * as yup from 'yup';
 import './LoginPage.css';
 import { useAuth } from 'src/providers/AuthProvider/AuthProvider';

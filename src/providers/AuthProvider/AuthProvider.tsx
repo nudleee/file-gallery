@@ -24,7 +24,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<FirebaseError>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [token, setToken] = useState<string | undefined>();
   const navigate = useNavigate();
 
   const handleRequestStart = () => {
@@ -44,7 +43,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const login = (email: string, password: string) => {
     handleRequestStart();
