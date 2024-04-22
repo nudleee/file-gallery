@@ -32,7 +32,6 @@ jobs:
 
       - name: Env
         run: |
-          echo ${{ REACT_APP_BACKEND_URL }}
           echo ${{ secrets.REACT_APP_BACKEND_URL }}
           echo ${{ vars.REACT_APP_BACKEND_URL }}
 
