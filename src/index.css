@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-left: 5px;
+}

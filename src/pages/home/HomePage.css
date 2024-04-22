@@ -1,0 +1,39 @@
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 200px));
+  grid-auto-rows: minmax(auto, 200px);
+  grid-gap: 10px;
+  width: 100%;
+}
+
+.gallery-item {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1200px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-top: 10px;
+}
+
+.selected-image {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}

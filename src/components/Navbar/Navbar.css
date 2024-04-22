@@ -1,0 +1,4 @@
+.navbar-container {
+  background-color: var(--bs-blue);
+  z-index: 9999;
+}
