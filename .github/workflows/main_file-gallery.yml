@@ -22,7 +22,10 @@ jobs:
           node-version: '20.x'
 
       - name: Env
-        run: env
+        run: |
+          env
+          echo ${{ secrets.REACT_APP_BACKEND_URL }}
+          echo ${{ vars.REACT_APP_BACKEND_URL }}
 
       - name: npm install, build
         run: |
