@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as BootstrapModal, Button } from 'react-bootstrap';
+import { Modal as BootstrapModal, Button, Spinner } from 'react-bootstrap';
 import './Modal.css';
 interface ModalProps {
   show: boolean;
@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({
       Close
     </Button>,
     <Button key="submit" variant="primary" type="submit" form={formId} onClick={handleSubmit} disabled={loading}>
-      Upload
+      {loading ? <Spinner animation="border" size="sm" /> : 'Upload'}
     </Button>,
   ];
 
@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({
       Close
     </Button>,
     <Button key="delete" variant="danger" onClick={handleDelete} disabled={loading}>
-      Delete
+      {loading ? <Spinner animation="border" size="sm" /> : 'Delete'}
     </Button>,
   ];
 
