@@ -27,12 +27,7 @@ const RegisterPage = () => {
   });
 
   const handleSubmit = (values: RegisterForm) => {
-    console.log(values);
-    try {
-      register(values.email, values.password);
-    } catch (error) {
-      console.log(error);
-    }
+    register(values.email, values.password);
   };
   return (
     <div className="login-wrapper">

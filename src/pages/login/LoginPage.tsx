@@ -15,6 +15,7 @@ const LoginPage = () => {
     email: yup.string().email().required(),
     password: yup.string().required(),
   });
+
   const handleSubmit = (values: LoginForm) => {
     login(values.email, values.password);
   };

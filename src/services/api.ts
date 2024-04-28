@@ -27,7 +27,6 @@ const uploadFile = async (name: string, file?: File) => {
 };
 
 const deleteFile = async (name: string) => {
-  console.log(name);
   const response = await api.delete(`/files/${name}`, { headers: getTokens(), params: { name } });
   return response.data;
 };
