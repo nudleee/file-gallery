@@ -24,12 +24,12 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `docker`
+## Docker
+
 Build image:
 
-```docker build -t gallery .```
+`docker build -t gallery .`
 
 Run image:
 
-```docker run -p 8080:8080 gallery```
-
+`docker run -p 8080:8080 gallery`
