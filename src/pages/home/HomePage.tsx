@@ -7,6 +7,8 @@ import { Button, Form, Spinner } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import Modal from 'src/components/GeneralModal/Modal';
+import up from 'src/resources/up.png';
+import down from 'src/resources/down.png';
 
 type FileUpload = {
   name: string;
@@ -19,13 +21,30 @@ const HomePage = () => {
   const [selectedFile, setSelectedFile] = useState<BlobFile | undefined>();
   const [showCreate, setShowCreate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingAll, setLoadingAll] = useState(false);
+  const [filter, setFilter] = useState('name');
+  const [order, setOrder] = useState('desc');
 
   const getFiles = async () => {
-    setLoading(true);
+    setLoadingAll(true);
     await server
-      .getFiles()
+      .getFiles(filter, order)
       .then((response) => {
         setFiles(response || []);
+      })
+      .finally(() => {
+        setLoadingAll(false);
+      });
+  };
+
+  const getFile = async (name?: string) => {
+    if (!name || !name.includes('resized')) return;
+    const fileName = name.split('-')[1];
+    setLoading(true);
+    await server
+      .getFile(fileName)
+      .then((response) => {
+        setSelectedFile(response);
       })
       .finally(() => {
         setLoading(false);
@@ -34,7 +53,11 @@ const HomePage = () => {
 
   useEffect(() => {
     getFiles();
-  }, [autLoading]);
+  }, [autLoading, filter, order]);
+
+  useEffect(() => {
+    getFile(selectedFile?.name);
+  }, [selectedFile]);
 
   const initialValues: FileUpload = {
     name: '',
@@ -73,12 +96,28 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      {user && (
-        <div className="button-container">
-          <Button onClick={() => setShowCreate(true)}>Upload image...</Button>
-        </div>
-      )}
-      {loading ? (
+      <div className="button-container">
+        <Button
+          className="me-2"
+          variant={`${filter === 'name' ? 'outline-primary' : 'primary'}`}
+          onClick={() => setFilter('name')}
+        >
+          Name
+        </Button>
+        <Button
+          className="me-2"
+          variant={`${filter === 'updated' ? 'outline-primary' : 'primary'}`}
+          onClick={() => setFilter('updated')}
+        >
+          Timestamp
+        </Button>
+        <Button className="me-2" onClick={() => setOrder(order === 'desc' ? 'asc' : 'desc')}>
+          Order
+          <img className="ms-3" width="20px" height="20px" src={order === 'desc' ? down : up} alt="sort-img" />
+        </Button>
+        {user && <Button onClick={() => setShowCreate(true)}>Upload image...</Button>}
+      </div>
+      {loadingAll ? (
         <div className="d-flex justify-content-center">
           <Spinner animation="border" />
         </div>
@@ -139,13 +178,19 @@ const HomePage = () => {
         handleClose={() => setSelectedFile(undefined)}
         handleDelete={handleDelete}
       >
-        <div className="d-flex flex-column">
-          <img className="selected-image" src={selectedFile?.url} alt={selectedFile?.name}></img>
-          <div className="d-flex flex-column">
-            <div>Filename: {selectedFile?.name}</div>
-            <div>Timestamp: {selectedFile?.updated}</div>
+        {loading ? (
+          <div className="d-flex justify-content-center">
+            <Spinner animation="border" />
           </div>
-        </div>
+        ) : (
+          <div className="d-flex flex-column">
+            <img className="selected-image" src={selectedFile?.url} alt={selectedFile?.name}></img>
+            <div className="d-flex flex-column">
+              <div>Filename: {selectedFile?.name}</div>
+              <div>Timestamp: {selectedFile?.updated}</div>
+            </div>
+          </div>
+        )}
       </Modal>
     </div>
   );

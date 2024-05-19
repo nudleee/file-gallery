@@ -8,10 +8,15 @@ const getTokens = () => {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
   };
 };
-const getFiles = async () => {
-  const response = await api.get('/files', {
+const getFiles = async (filter: string, order: string) => {
+  const response = await api.get(`/files?filter=${filter}&order=${order}`, {
     headers: getTokens(),
   });
+  return response.data;
+};
+
+const getFile = async (name: string) => {
+  const response = await api.get(`/files/${name}`, { headers: getTokens() });
   return response.data;
 };
 
@@ -30,4 +35,4 @@ const deleteFile = async (name: string) => {
   const response = await api.delete(`/files/${name}`, { headers: getTokens(), params: { name } });
   return response.data;
 };
-export const server = { getFiles, uploadFile, deleteFile };
+export const server = { getFiles, uploadFile, deleteFile, getFile };
