@@ -41,6 +41,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const getFiles = async () => {
+      setLoadingAll(true);
       await server
         .getFiles(filter, order)
         .then((response) => {
