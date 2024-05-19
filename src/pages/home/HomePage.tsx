@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BlobFile } from 'src/models/blobFile';
 import { useAuth } from 'src/providers/AuthProvider/AuthProvider';
 import { server } from 'src/services/api';
@@ -38,21 +38,22 @@ const HomePage = () => {
         setLoading(false);
       });
   };
+  const getFiles = useCallback(async () => {
+    setLoadingAll(true);
+    await server
+      .getFiles(filter, order)
+      .then((response) => {
+        console.log('fetched');
+        setFiles(response || []);
+      })
+      .finally(() => {
+        setLoadingAll(false);
+      });
+  }, [filter, order]);
 
   useEffect(() => {
-    const getFiles = async () => {
-      setLoadingAll(true);
-      await server
-        .getFiles(filter, order)
-        .then((response) => {
-          setFiles(response || []);
-        })
-        .finally(() => {
-          setLoadingAll(false);
-        });
-    };
     getFiles();
-  }, [autLoading, filter, order, loadingAll]);
+  }, [autLoading, getFiles]);
 
   useEffect(() => {
     getSelectedFile(selectedFile?.name);
