@@ -25,19 +25,7 @@ const HomePage = () => {
   const [filter, setFilter] = useState('name');
   const [order, setOrder] = useState('desc');
 
-  const getFiles = async () => {
-    setLoadingAll(true);
-    await server
-      .getFiles(filter, order)
-      .then((response) => {
-        setFiles(response || []);
-      })
-      .finally(() => {
-        setLoadingAll(false);
-      });
-  };
-
-  const getFile = async (name?: string) => {
+  const getSelectedFile = async (name?: string) => {
     if (!name || !name.includes('resized')) return;
     const fileName = name.split('-')[1];
     setLoading(true);
@@ -52,11 +40,21 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    const getFiles = async () => {
+      await server
+        .getFiles(filter, order)
+        .then((response) => {
+          setFiles(response || []);
+        })
+        .finally(() => {
+          setLoadingAll(false);
+        });
+    };
     getFiles();
-  }, [autLoading, filter, order]);
+  }, [autLoading, filter, order, loadingAll]);
 
   useEffect(() => {
-    getFile(selectedFile?.name);
+    getSelectedFile(selectedFile?.name);
   }, [selectedFile]);
 
   const initialValues: FileUpload = {
@@ -79,7 +77,7 @@ const HomePage = () => {
     formData.append('name', values.name);
     await server.uploadFile(values.name, values.file).then(() => {
       handleClose();
-      getFiles();
+      setLoadingAll(true);
     });
   };
 
@@ -89,7 +87,7 @@ const HomePage = () => {
       setLoading(true);
       await server.deleteFile(selectedFile.name).then(() => {
         setSelectedFile(undefined);
-        getFiles();
+        setLoadingAll(true);
       });
     }
   };
