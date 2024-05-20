@@ -79,7 +79,7 @@ const HomePage = () => {
     formData.append('name', values.name);
     await server.uploadFile(values.name, values.file).then(() => {
       handleClose();
-      setLoadingAll(true);
+      getFiles();
     });
   };
 
@@ -89,7 +89,7 @@ const HomePage = () => {
       setLoading(true);
       await server.deleteFile(selectedFile.name).then(() => {
         setSelectedFile(undefined);
-        setLoadingAll(true);
+        getFiles();
       });
     }
   };
